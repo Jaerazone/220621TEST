@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addMemo, removeMemo } from '../memo'
+import { addMemo, removeMemo, updateMemo } from '../memo'
 
 const MemoBoard = () => {
 
@@ -11,6 +11,8 @@ const MemoBoard = () => {
 
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const [newTitle, setNewTitle] = useState('')
+    const [newContent, setNewContent] = useState('');
 
 
     return (
@@ -25,10 +27,13 @@ const MemoBoard = () => {
             {   
                 memoList.map((memo, index) => (
                     <div key={memo.id}>
-                        <p>제목 : {memo.title} </p>  
+                        <p>제목 : {memo.title} </p> 
+                        <button onClick={() => { dispatch(removeMemo({ id: memo.id })) }} >X</button>
                         <p>id : {memo.id}</p>
                         <p>내용 : {memo.content}</p>
-                        <button onClick={() => { dispatch(removeMemo({ id: memo.id })) }} >X</button>
+                        <input type="text" placeholder='수정할 제목을 입력하세요' onChange={(e) => { setNewTitle(e.target.value)}}/>
+                        <input type="text" placeholder='수정할 내용을 입력하세요' onChange={(e) => { setNewContent(e.target.value) }} />
+                        <button onClick={() => {dispatch(updateMemo({ id: memo.id, title, content }))}}>수정완료</button>                        
                         <hr />
                     </div>
                 ))

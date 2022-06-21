@@ -1,4 +1,4 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { configureStore, createSlice, current } from "@reduxjs/toolkit";
 
 const memo = createSlice({
   name: "memo",
@@ -29,10 +29,18 @@ const memo = createSlice({
     removeMemo: (state, action) => {
       state.memo = state.memo.filter((item) => item.id !== action.payload.id);
     },
+    updateMemo: (state, action) => {
+      state.memo.map((item) => {
+        if (item.id === action.payload.id) {
+          item.title = action.payload.title;
+          item.content = action.payload.content;
+        }
+      });
+    },
   },
 });
 
-export const { addMemo, removeMemo } = memo.actions;
+export const { addMemo, removeMemo, updateMemo } = memo.actions;
 
 export default configureStore({
   reducer: {
